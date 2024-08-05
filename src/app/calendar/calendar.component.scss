@@ -1,0 +1,48 @@
+  .calendar-header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .calendar-body {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .table-header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .weekday {
+    width: 100px;
+    text-align: center;
+  }
+  
+  .calendar-header {
+    width: 100%;
+    height: 50px;
+    margin: auto;
+    justify-content: space-between;
+    .title {
+      display: flex;
+      align-items: center;
+  }
+}
+
+.tools, .tools button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tools .active-month {
+  width: 100px;
+  text-align: center;
+}
