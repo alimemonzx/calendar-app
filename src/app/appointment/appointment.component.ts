@@ -83,7 +83,7 @@ export class AppointmentComponent implements OnInit {
   bookAppointment() {
     if (this.meetingForm.valid && this.meetingForm.controls.title.value) {
       const appointment: Appointment = {
-        id: this._calendarService.createId(this.selectedDate),
+        id: this._calendarService.createAppointmentId(this.selectedDate),
         date: this.selectedDate,
         title: this.meetingForm.controls.title.value!,
       };

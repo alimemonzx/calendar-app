@@ -11,12 +11,12 @@ export class CalendarStore {
     calendarDays: [],
     appointments: [
       {
-        id: '5_August_2024',
+        id: '5_August_2024_a',
         title: 'Meeting with Lane',
         date: new Date('2024-08-05'),
       },
       {
-        id: '3_August_2024',
+        id: '3_August_2024_a',
         title: 'Meeting with Ali',
         date: new Date('2024-08-03'),
       },
@@ -91,7 +91,7 @@ export class CalendarStore {
     const { calendarDays, appointments } = this.messageSubject.value;
 
     calendarDays.forEach((day) => {
-      const appointmentId = this._calendarService.createId(day.date);
+      const appointmentId = this._calendarService.createAppointmentId(day.date);
 
       const appointment = appointments.find((app) => app.id === appointmentId);
 
@@ -112,7 +112,9 @@ export class CalendarStore {
     const currentDays = this.messageSubject.value.calendarDays;
     var appointment = currentDays[fromIdx].appointments;
     appointment[0].date = currentDays[toIdx].date;
-    appointment[0].id = this._calendarService.createId(currentDays[toIdx].date);
+    appointment[0].id = this._calendarService.createAppointmentId(
+      currentDays[toIdx].date
+    );
     currentDays[fromIdx].appointments = [];
     currentDays[toIdx].appointments = appointment;
     this.messageSubject.next({
@@ -126,7 +128,7 @@ export class CalendarStore {
       (appointment) => appointment.id !== id
     );
     const currentDays = this.messageSubject.value.calendarDays.map((day) => {
-      if (day.id === id) {
+      if (day.id === id.slice(0, -2)) {
         day.appointments = [];
       }
       return day;
