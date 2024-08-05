@@ -12,14 +12,20 @@ export class CalendarStore {
     appointments: [
       {
         id: '5_August_2024',
-        title: 'Meeting with lane',
+        title: 'Meeting with Lane',
         date: new Date('2024-08-05'),
+      },
+      {
+        id: '3_August_2024',
+        title: 'Meeting with Ali',
+        date: new Date('2024-08-03'),
       },
     ],
   });
 
   constructor(private _calendarService: CalenderService) {
     this.generateCalendarDays(this.messageSubject.value.currentDate);
+    this.addAppointmentsToCalendar();
   }
   dateSubject$ = this.messageSubject.asObservable();
   changeCurrentDate(date: Date) {
@@ -28,6 +34,7 @@ export class CalendarStore {
       currentDate: date,
     });
     this.generateCalendarDays(date);
+    this.addAppointmentsToCalendar();
   }
   changeSelectedDate(date: Date) {
     this.messageSubject.next({
@@ -64,6 +71,7 @@ export class CalendarStore {
         date.setDate(date.getDate() + 1);
       }
       const calendarDay: CalendarDay = {
+        id: this._calendarService.createId(date),
         currentMonth: date.getMonth() === currentDay.getMonth(),
         date: new Date(date),
         month: date.getMonth(),
@@ -83,7 +91,8 @@ export class CalendarStore {
     const { calendarDays, appointments } = this.messageSubject.value;
 
     calendarDays.forEach((day) => {
-      const appointmentId = this._calendarService.createAppointmentId(day.date);
+      const appointmentId = this._calendarService.createId(day.date);
+
       const appointment = appointments.find((app) => app.id === appointmentId);
 
       if (
@@ -93,10 +102,39 @@ export class CalendarStore {
         day.appointments.push(appointment);
       }
     });
-
     this.messageSubject.next({
       ...this.messageSubject.value,
       calendarDays,
+    });
+  }
+
+  moveAppointments(fromIdx: number, toIdx: number) {
+    const currentDays = this.messageSubject.value.calendarDays;
+    var appointment = currentDays[fromIdx].appointments;
+    appointment[0].date = currentDays[toIdx].date;
+    appointment[0].id = this._calendarService.createId(currentDays[toIdx].date);
+    currentDays[fromIdx].appointments = [];
+    currentDays[toIdx].appointments = appointment;
+    this.messageSubject.next({
+      ...this.messageSubject.value,
+      calendarDays: currentDays,
+    });
+  }
+
+  deleteAppointments(id: string) {
+    const appointments = this.messageSubject.value.appointments.filter(
+      (appointment) => appointment.id !== id
+    );
+    const currentDays = this.messageSubject.value.calendarDays.map((day) => {
+      if (day.id === id) {
+        day.appointments = [];
+      }
+      return day;
+    });
+    this.messageSubject.next({
+      ...this.messageSubject.value,
+      appointments: appointments,
+      calendarDays: currentDays,
     });
   }
 }

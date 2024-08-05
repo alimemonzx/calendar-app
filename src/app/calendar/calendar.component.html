@@ -3,11 +3,11 @@
         <h2>{{months[currentDay.getMonth()]}} {{currentDay.getFullYear()}}</h2>
     </div>
     <div class="tools">
-        <button (click)="prevMonth()" type="button">
+        <button mat-icon-button (click)="prevMonth()" type="button">
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back"></mat-icon>
         </button>
         <div class="active-month">{{months[currentDay.getMonth()]}}</div>
-        <button (click)="nextMonth()" type="button">
+        <button mat-icon-button	 (click)="nextMonth()" type="button">
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_forward"></mat-icon>
         </button>
 

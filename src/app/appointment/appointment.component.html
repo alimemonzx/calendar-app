@@ -3,27 +3,41 @@
     <div class="selected-date">
         {{_calendarService.formatDate(this.selectedDate)}}
     </div>
-    <mat-form-field class="title">
-        <mat-label>Add title and time</mat-label>
-        <input matInput [(ngModel)]="appointmentTitle">
-    </mat-form-field>
-    <button mat-flat-button (click)="bookAppointment()">Book</button>
+    <form [formGroup]="meetingForm">
+        <mat-form-field class="title">
+            <mat-label>Add title and time</mat-label>
+            <input matInput formControlName="title">
+            @if (!meetingForm.valid) {
+            <mat-error>Please enter atleast 5 characters</mat-error>
+            }
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="bookAppointment()" class="mt-btn">Book</button>
+    </form>
+    <br />
+    <br />
     <div class="appointment-list">
-        @for (appointmnet of appointments; track $index) {
+        @for (appointment of appointments; track $index) {
         <mat-card appearance="raised">
             <mat-card-header>
-                <mat-card-title>{{appointmnet.title}}</mat-card-title>
+                <mat-card-title>{{appointment.title}}</mat-card-title>
             </mat-card-header>
             <mat-card-content class="card-content">
-                <span class="date">
-                    {{appointmnet.date.getDate()}}
-                </span>
-                <span class="month">
-                    {{_calendarService.months[appointmnet.date.getMonth()]}} {{appointmnet.date.getFullYear()}}
-                </span>
+                <div class="date">
+                    <span class="date">
+                        {{appointment.date.getDate()}}
+                    </span>
+                    <span class="month">
+                        {{_calendarService.months[appointment.date.getMonth()]}} {{appointment.date.getFullYear()}}
+                    </span>
+                </div>
+                <div class="action">
+                    <button mat-icon-button type="button">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete" (click)="openDialog(appointment.title, appointment.id)"></mat-icon>
+                    </button>
+                </div>
             </mat-card-content>
-          </mat-card>
-          <br/>
+        </mat-card>
+        <br />
         }
     </div>
 </div>

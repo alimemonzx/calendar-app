@@ -4,11 +4,17 @@ import { CalendarDaysComponent } from '../calendar-days/calendar-days.component'
 import { MatIconModule } from '@angular/material/icon';
 import { CalendarStore } from '../services/store';
 import { CalenderService } from '../services/calender.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, CalendarDaysComponent, MatIconModule],
+  imports: [
+    CommonModule,
+    CalendarDaysComponent,
+    MatIconModule,
+    MatButtonModule,
+  ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })

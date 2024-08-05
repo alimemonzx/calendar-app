@@ -9,7 +9,7 @@
   }
   
   .calendar-day {
-    width: 14%;
+    width: 100%;
     height: 150px;
     position: relative;
     border: 1px solid #ebe6e6;
@@ -35,31 +35,30 @@
     font-size: 18px;
     font-weight: bold;
   }
+  
+  .drag-container {
+    position: relative;
+    width: 14%;
+  }
 
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px; /* Adjust the gap between items as needed */
+  .drag {
+    height: 150px;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
   }
   
-  .grid-item {
-    background-color: #ddd;
-    padding: 16px;
-    text-align: center;
-    border: 1px solid #ccc;
+  .appointment-title {
+    cursor: pointer;
+    margin: 20px 5px;
+    background-color: bisque;
+    padding: 5px;
+    border-radius: 5px;
   }
 
-  .example-list {
-    width: 500px;
-    max-width: 100%;
-    border: solid 1px #ccc;
-    min-height: 60px;
-    display: block;
-    background: white;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .row {
-    display: flex;
+  .appointment-placeholder {
+    background: #ccc;
+    border: dotted 3px #999;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }

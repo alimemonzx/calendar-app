@@ -34,7 +34,7 @@ export class CalenderService {
     } ${date.getFullYear()}`;
   }
 
-  createAppointmentId(date: Date) {
+  createId(date: Date) {
     return `${date.getDate()}_${
       this.months[date.getMonth()]
     }_${date.getFullYear()}`;

@@ -29,18 +29,6 @@ export class CalendarDaysComponent implements OnInit {
     this.currentDays = [];
     this.dateToday.setHours(0, 0, 0, 0);
   }
-  items = [
-    'Zero',
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-  ];
 
   ngOnInit(): void {
     this.dateSubscriber = this._calendarStore.dateSubject$.subscribe((res) => {
@@ -56,7 +44,10 @@ export class CalendarDaysComponent implements OnInit {
     this.dateSubscriber.unsubscribe();
   }
 
-  drop($event: CdkDragDrop<CalendarDay[]>) {
-    console.log($event);
+  drop($event: CdkDragDrop<Appointment[]>) {
+    this._calendarStore.moveAppointments(
+      $event.previousIndex,
+      $event.currentIndex
+    );
   }
 }

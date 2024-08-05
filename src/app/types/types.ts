@@ -12,10 +12,16 @@ export interface CalendarDate {
 }
 
 export interface CalendarDay {
+  id: string;
   currentMonth: boolean;
   date: Date;
   month: number;
   number: number;
   year: number;
   appointments: Appointment[];
+}
+
+export interface DialogData {
+  title: string;
+  eventId: string;
 }

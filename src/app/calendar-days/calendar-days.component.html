@@ -1,20 +1,20 @@
-<!-- <div class="table-content" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
+<div class="table-content" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
     @for (day of currentDays; track day) {
-    <div [ngClass]="{'calendar-day': true, 'current': day.currentMonth, 'selected': day.date.getTime() === dateToday.getTime()}"
-        (click)="changeDate(day.date)">
-        <p>{{day.number}}</p>
-        <div>
-            @for (appointment of day.appointments; track appointment) {
-            <div class="appointment-title" cdkDrag>
-                {{appointment.title}}
+    <div class="drag-container">
+        <div class="drag" cdkDrag [cdkDragDisabled]="day.appointments.length == 0" (click)="changeDate(day.date)">
+            <div class="appointment-placeholder" *cdkDragPlaceholder></div>
+            <div>
+                @for (appointment of day.appointments; track appointment) {
+                <div class="appointment-title">
+                    {{appointment.title}}
+                </div>
+                }
             </div>
-            }
+        </div>
+        <div
+            [ngClass]="{'calendar-day': true, 'current': day.currentMonth, 'selected': day.date.getTime() === dateToday.getTime()}">
+            <p>{{day.number}}</p>
         </div>
     </div>
     }
-</div> -->
-<div cdkDropList cdkDropListOrientation="mixed" class="example-list" (cdkDropListDropped)="drop($event)">
-    @for (item of items; track item) {
-      <div class="example-box" cdkDrag>{{item}}</div>
-    }
-  </div>
+</div>
