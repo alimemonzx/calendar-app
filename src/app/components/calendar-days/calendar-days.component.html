@@ -1,11 +1,11 @@
 <div class="table-content" cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)">
-    @for (day of currentDays; track day) {
+    @for (day of currentDays; track $index) {
     <div class="drag-container">
         <div class="drag" cdkDrag [cdkDragDisabled]="day.appointments.length == 0" (click)="changeDate(day.date)">
             <div class="appointment-placeholder" *cdkDragPlaceholder></div>
-            <div>
+            <div class="meetings">
                 @for (appointment of day.appointments; track appointment) {
-                <div class="appointment-title">
+                <div class="appointment-title" (mousedown)="setAppointmentId(appointment.identifier)">
                     {{appointment.title}}
                 </div>
                 }

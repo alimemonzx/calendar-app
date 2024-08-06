@@ -11,7 +11,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DialogData } from '../types/types';
+import { DialogData } from '../../types/types';
 
 @Component({
   selector: 'appointment-delete-dialog',

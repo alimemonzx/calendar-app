@@ -1,7 +1,9 @@
 export interface Appointment {
-  id: string;
+  identifier: string;
   date: Date;
   title: string;
+  start_hour: string;
+  end_hour: string;
 }
 
 export interface CalendarDate {
@@ -24,4 +26,10 @@ export interface CalendarDay {
 export interface DialogData {
   title: string;
   eventId: string;
+}
+
+export interface AppointmentForm {
+  title: string;
+  start_hour: string;
+  end_hour: string;
 }

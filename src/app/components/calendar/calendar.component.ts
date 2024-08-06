@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CalendarDaysComponent } from '../calendar-days/calendar-days.component';
 import { MatIconModule } from '@angular/material/icon';
-import { CalendarStore } from '../services/store';
-import { CalenderService } from '../services/calender.service';
+import { CalendarStore } from '../../services/store';
+import { CalenderService } from '../../services/calender.service';
 import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
@@ -26,9 +27,10 @@ export class CalendarComponent implements OnInit {
   weekdays = this._calendarService.weekdays;
   months = this._calendarService.months;
   currentDay: Date = new Date('2021-08-09');
+  dateSubscriber: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this._calendarStore.dateSubject$.subscribe((res) => {
+    this.dateSubscriber = this._calendarStore.dateSubject$.subscribe((res) => {
       this.currentDay = res.currentDate;
     });
   }
@@ -47,5 +49,8 @@ export class CalendarComponent implements OnInit {
       1
     );
     this._calendarStore.changeCurrentDate(prevMonthDate);
+  }
+  ngOnDestroy(): void {
+    this.dateSubscriber.unsubscribe();
   }
 }

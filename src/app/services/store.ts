@@ -11,14 +11,18 @@ export class CalendarStore {
     calendarDays: [],
     appointments: [
       {
-        id: '5_August_2024_a',
+        identifier: '5_August_2024_10:15_AM_10:30_AM',
         title: 'Meeting with Lane',
         date: new Date('2024-08-05'),
+        start_hour: '10:15_AM',
+        end_hour: '10:30_AM',
       },
       {
-        id: '3_August_2024_a',
+        identifier: '3_August_2024_11:25_PM_11:30_PM',
         title: 'Meeting with Ali',
         date: new Date('2024-08-03'),
+        start_hour: '11:25_PM',
+        end_hour: '11:30_PM',
       },
     ],
   });
@@ -36,12 +40,14 @@ export class CalendarStore {
     this.generateCalendarDays(date);
     this.addAppointmentsToCalendar();
   }
+
   changeSelectedDate(date: Date) {
     this.messageSubject.next({
       ...this.messageSubject.value,
       selectedDate: date,
     });
   }
+
   addAppointments(appointment: Appointment) {
     let localAppointments = [...this.messageSubject.value.appointments];
     localAppointments.push(appointment);
@@ -91,46 +97,73 @@ export class CalendarStore {
     const { calendarDays, appointments } = this.messageSubject.value;
 
     calendarDays.forEach((day) => {
-      const appointmentId = this._calendarService.createAppointmentId(day.date);
+      const dayAppointments = appointments.filter((app) => {
+        let dayId = this._calendarService.createId(app.date);
+        return dayId === day.id;
+      });
 
-      const appointment = appointments.find((app) => app.id === appointmentId);
-
-      if (
-        appointment &&
-        !day.appointments.some((app) => app.id === appointmentId)
-      ) {
-        day.appointments.push(appointment);
-      }
+      dayAppointments.forEach((appointment) => {
+        if (
+          !day.appointments.some(
+            (app) => app.identifier === appointment.identifier
+          )
+        ) {
+          day.appointments.push(appointment);
+        }
+      });
     });
+
     this.messageSubject.next({
       ...this.messageSubject.value,
       calendarDays,
     });
   }
 
-  moveAppointments(fromIdx: number, toIdx: number) {
+  moveAppointment(fromIdx: number, toIdx: number, appointmentId: string) {
     const currentDays = this.messageSubject.value.calendarDays;
-    var appointment = currentDays[fromIdx].appointments;
-    appointment[0].date = currentDays[toIdx].date;
-    appointment[0].id = this._calendarService.createAppointmentId(
-      currentDays[toIdx].date
+    const appointmentToMoveIndex = currentDays[fromIdx].appointments.findIndex(
+      (app) => app.identifier === appointmentId
     );
-    currentDays[fromIdx].appointments = [];
-    currentDays[toIdx].appointments = appointment;
+
+    const appointmentToMove =
+      currentDays[fromIdx].appointments[appointmentToMoveIndex];
+    const updatedAppointment: Appointment = {
+      ...appointmentToMove,
+      date: currentDays[toIdx].date,
+      identifier: this._calendarService.createAppointmentId(
+        currentDays[toIdx].date,
+        appointmentToMove.start_hour,
+        appointmentToMove.end_hour
+      ),
+    };
+    currentDays[fromIdx].appointments.splice(appointmentToMoveIndex, 1);
+    currentDays[toIdx].appointments.push(updatedAppointment);
+
+    // Updates the time in appointments array
+    const appointmentToUpdateIndex =
+      this.messageSubject.value.appointments.findIndex((appointment) => {
+        appointment.identifier === appointmentId;
+      });
+    const appointments = this.messageSubject.value.appointments;
+    appointments.splice(appointmentToUpdateIndex, 1, updatedAppointment);
+    console.log(appointments);
+
     this.messageSubject.next({
       ...this.messageSubject.value,
       calendarDays: currentDays,
+      appointments: appointments,
     });
   }
 
   deleteAppointments(id: string) {
     const appointments = this.messageSubject.value.appointments.filter(
-      (appointment) => appointment.id !== id
+      (appointment) => appointment.identifier !== id
     );
     const currentDays = this.messageSubject.value.calendarDays.map((day) => {
-      if (day.id === id.slice(0, -2)) {
-        day.appointments = [];
-      }
+      let appointments = day.appointments.filter(
+        (appointment) => appointment.identifier != id
+      );
+      day.appointments = appointments;
       return day;
     });
     this.messageSubject.next({

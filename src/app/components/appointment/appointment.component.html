@@ -4,6 +4,25 @@
         {{_calendarService.formatDate(this.selectedDate)}}
     </div>
     <form [formGroup]="meetingForm">
+        <div class="time-fields">
+            <mat-form-field>
+                <mat-label>Select hour</mat-label>
+                <mat-select formControlName="start_hour" (selectionChange)="selectStartHour($event)">
+                    @for (hour of _calendarService.formattedHours; track $index) {
+                    <mat-option [value]="hour">{{hour}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Select hour</mat-label>
+                <mat-select formControlName="end_hour">
+                    @for (hour of end_hours; track $index) {
+                    <mat-option [value]="hour">{{hour}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+           
+        </div>
         <mat-form-field class="title">
             <mat-label>Add title and time</mat-label>
             <input matInput formControlName="title">
@@ -13,7 +32,6 @@
         </mat-form-field>
         <button mat-flat-button color="primary" (click)="bookAppointment()" class="mt-btn">Book</button>
     </form>
-    <br />
     <br />
     <div class="appointment-list">
         @for (appointment of appointments; track $index) {
@@ -28,11 +46,13 @@
                     </span>
                     <span class="month">
                         {{_calendarService.months[appointment.date.getMonth()]}} {{appointment.date.getFullYear()}}
+                         {{appointment.start_hour | removeUnderscore }} - {{appointment.end_hour | removeUnderscore}}
                     </span>
                 </div>
                 <div class="action">
                     <button mat-icon-button type="button">
-                        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete" (click)="openDialog(appointment.title, appointment.id)"></mat-icon>
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete"
+                            (click)="openDialog(appointment.title, appointment.identifier)"></mat-icon>
                     </button>
                 </div>
             </mat-card-content>

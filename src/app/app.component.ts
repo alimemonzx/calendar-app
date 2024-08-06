@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { CalendarComponent } from './calendar/calendar.component';
-import { AppointmentComponent } from './appointment/appointment.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { AppointmentComponent } from './components/appointment/appointment.component';
 
 @Component({
   selector: 'app-root',

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CalendarStore } from '../services/store';
+import { CalendarStore } from '../../services/store';
 import { Subscription } from 'rxjs';
-import { Appointment, CalendarDay } from '../types/types';
+import { Appointment, CalendarDay } from '../../types/types';
 import {
   CdkDragDrop,
   CdkDropList,
@@ -24,6 +24,7 @@ export class CalendarDaysComponent implements OnInit {
   dateSubscriber: Subscription = new Subscription();
   dateToday = new Date();
   dropTargetIds = [];
+  activeAppointment = '';
   constructor(private _calendarStore: CalendarStore) {
     this.firstDayOfMonth = new Date();
     this.currentDays = [];
@@ -45,9 +46,13 @@ export class CalendarDaysComponent implements OnInit {
   }
 
   drop($event: CdkDragDrop<Appointment[]>) {
-    this._calendarStore.moveAppointments(
+    this._calendarStore.moveAppointment(
       $event.previousIndex,
-      $event.currentIndex
+      $event.currentIndex,
+      this.activeAppointment
     );
+  }
+  setAppointmentId(id: string) {
+    this.activeAppointment = id;
   }
 }
