@@ -3,7 +3,7 @@
     <div class="selected-date">
         {{_calendarService.formatDate(this.selectedDate)}}
     </div>
-    <form [formGroup]="meetingForm">
+    <form [formGroup]="meetingForm" (submit)="bookAppointment()">
         <div class="time-fields">
             <mat-form-field>
                 <mat-label>Select hour</mat-label>
@@ -30,7 +30,7 @@
             <mat-error>Please enter atleast 5 characters</mat-error>
             }
         </mat-form-field>
-        <button mat-flat-button color="primary" (click)="bookAppointment()" class="mt-btn">Book</button>
+        <button mat-flat-button color="primary" type="submit" class="mt-btn">Book</button>
     </form>
     <br />
     <div class="appointment-list">

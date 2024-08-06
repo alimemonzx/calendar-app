@@ -76,7 +76,7 @@ export class AppointmentComponent implements OnInit {
       '',
       {
         validators: [Validators.minLength(5)],
-        updateOn: 'blur',
+        updateOn: 'change',
       },
     ],
   });
