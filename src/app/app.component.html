@@ -1,11 +1,12 @@
-
 <main class="main">
-  <div class="calender">
-    <app-calendar></app-calendar>
-  </div>
-  <div class="appointment">
-    <app-appointment></app-appointment>
+  <app-header></app-header>
+  <div class="content">
+    <div class="calender">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- <div class="appointment">
+      <app-appointment></app-appointment>
+    </div> -->
   </div>
 </main>
 
-<router-outlet></router-outlet>

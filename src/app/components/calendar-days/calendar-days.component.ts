@@ -37,10 +37,6 @@ export class CalendarDaysComponent implements OnInit {
     });
   }
 
-  changeDate(date: Date) {
-    this._calendarStore.changeSelectedDate(date);
-  }
-
   ngOnDestroy() {
     this.dateSubscriber.unsubscribe();
   }

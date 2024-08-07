@@ -1,21 +1,10 @@
-.title {
+.appointment-container {
     width: 100%;
-  }
-.selected-date{
-    font-size: 1.125rem;
-    font-weight: 500;
-    margin: 10px 0px;
-    color: grey;
-  }
-
-  .heading{
-    font-size: 2rem;
-    margin-top: 100px
-  }
-.appointent-container {
-    width: 100%;
-    padding: 0px 100px;
 }
+.appointment-list{
+  margin: 10px 100px;
+}
+
 .date{
   font-size: 1.5rem;
   padding-right: 10px;
@@ -36,9 +25,4 @@
 
 .mt-btn {
   background-color: blue
-}
-
-.time-fields{
-  display: flex;
-  gap: 20px
 }

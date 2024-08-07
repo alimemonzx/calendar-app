@@ -8,7 +8,6 @@ export interface Appointment {
 
 export interface CalendarDate {
   currentDate: Date;
-  selectedDate: Date;
   calendarDays: CalendarDay[];
   appointments: Appointment[];
 }

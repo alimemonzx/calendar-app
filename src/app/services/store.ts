@@ -7,7 +7,6 @@ import { CalenderService } from './calender.service';
 export class CalendarStore {
   private messageSubject = new BehaviorSubject<CalendarDate>({
     currentDate: new Date(),
-    selectedDate: new Date(),
     calendarDays: [],
     appointments: [
       {
@@ -39,13 +38,6 @@ export class CalendarStore {
     });
     this.generateCalendarDays(date);
     this.addAppointmentsToCalendar();
-  }
-
-  changeSelectedDate(date: Date) {
-    this.messageSubject.next({
-      ...this.messageSubject.value,
-      selectedDate: date,
-    });
   }
 
   addAppointments(appointment: Appointment) {
@@ -146,7 +138,6 @@ export class CalendarStore {
       });
     const appointments = this.messageSubject.value.appointments;
     appointments.splice(appointmentToUpdateIndex, 1, updatedAppointment);
-    console.log(appointments);
 
     this.messageSubject.next({
       ...this.messageSubject.value,
